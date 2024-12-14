@@ -15,7 +15,7 @@ def main():
         f"echo '{manager_code}' > $install_path/manage.sh;"
         f"chmod +x $install_path/manage.sh $install_path/main.py;"
     )
-    with open("./build/installer.sh", "w") as file:
+    with open("./install/installer.sh", "w") as file:
         file.write(content)
 
 
