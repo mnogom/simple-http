@@ -4,9 +4,11 @@ import socket
 import argparse
 
 RESPONSE = """\
-HTTP/1.0 200 OK
+HTTP/1.1 200 OK
+Content-Length: 2
+Content-Type: text/html
 
-HELLO!
+:)
 """.encode()
 
 
