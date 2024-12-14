@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 script_dir=$(dirname "$0")
+daemon_pid_file="$script_dir"/.socket.daemon.pid
 
 HOST="localhost"
 PORT="8000"
@@ -13,14 +14,14 @@ run_daemon() {
 	"$script_dir"/main.py -p "$PORT" -H "$HOST" &
 	pid=$!
 	echo "Run daemon with pid: $pid"
-	echo "$pid" >/tmp/.socket.daemon.pid
+	echo "$pid" >"$daemon_pid_file"
 }
 
 kill_daemon() {
-	pid=$(cat /tmp/.socket.daemon.pid)
+	pid=$(cat "$daemon_pid_file")
 	kill -9 "$pid"
 	wait $!
-	rm /tmp/.socket.daemon.pid
+	rm "$daemon_pid_file"
 }
 
 ping() {
