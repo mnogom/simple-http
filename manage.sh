@@ -1,14 +1,16 @@
-#!/bin/bash -ex
+#!/bin/bash -e
+
+script_dir=$(dirname "$0")
 
 HOST="localhost"
 PORT="8000"
 
 run() {
-	./main.py -p "$PORT" -H "$HOST"
+	"$script_dir"/main.py -p "$PORT" -H "$HOST"
 }
 
 run_daemon() {
-	./main.py -p "$PORT" -H "$HOST" &
+	"$script_dir"/main.py -p "$PORT" -H "$HOST" &
 	pid=$!
 	echo "Run daemon with pid: $pid"
 	echo "$pid" >/tmp/.socket.daemon.pid

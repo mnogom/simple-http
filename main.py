@@ -3,6 +3,12 @@
 import socket
 import argparse
 
+RESPONSE = """\
+HTTP/1.0 200 OK
+
+HELLO!
+""".encode()
+
 
 def parse_args() -> tuple[str, int]:
     parser = argparse.ArgumentParser()
@@ -25,8 +31,7 @@ def main() -> None:
             connection, address = sock.accept()
             print("Connection from %s" % str(address))
             # response = connection.recv(1024).decode()
-            response = "HTTP/1.0 200 OK\n\nHELLO!"
-            connection.sendall(response.encode())
+            connection.sendall(RESPONSE)
             connection.close()
     except:
         raise
