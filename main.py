@@ -20,24 +20,30 @@ def parse_args() -> tuple[str, int]:
     return args.host, args.port
 
 
+def serve(sock: socket.socket) -> None:
+    while True:
+        connection, address = sock.accept()
+        print("Connection from %s" % str(address))
+        # response = connection.recv(1024).decode()
+        connection.sendall(RESPONSE)
+        connection.close()
+
+
 def main() -> None:
     host, port = parse_args()
-
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, proto=0)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind((host, port))
     sock.listen(1)
     print("Listening port %s" % port)
     try:
-        while True:
-            connection, address = sock.accept()
-            print("Connection from %s" % str(address))
-            # response = connection.recv(1024).decode()
-            connection.sendall(RESPONSE)
-            connection.close()
+        serve(sock=sock)
+    except KeyboardInterrupt:
+        pass
     except:
         raise
     finally:
+        print("Closing socket")
         sock.close()
 
 
